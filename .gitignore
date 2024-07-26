@@ -1,7 +1,6 @@
 testing
 source_docs
 bible_vectorstore
-src
 venv
 __pycache__
 __pycache__/
