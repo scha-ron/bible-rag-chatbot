@@ -7,6 +7,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from config import DB_PATH, EMBEDDING_MODEL
 from preprocess import BIBLE_VERSION
 import re
+import os
 from typing import List, Tuple, Dict, NamedTuple
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -68,11 +69,16 @@ with st.spinner("Loading Bible knowledge..."):
     vectorstore = load_bible_vectorstore()
     retriever = vectorstore.as_retriever()
 
-# Main LLM for RAG
-main_llm = ChatOllama(model='llama3')
+# Ollama LLM config
+ollama_host = os.getenv('OLLAMA_HOST', 'http://localhost:11434')
+main_llm = ChatOllama(model='llama3', base_url=ollama_host)
+verification_llm = ChatOllama(model='gemma2', base_url=ollama_host)  
 
-# Verification LLM
-verification_llm = ChatOllama(model='gemma2')  
+# Uncomment if running directly from the repo after cloning
+# main_llm = ChatOllama(model='llama3')
+
+# # Verification LLM
+# verification_llm = ChatOllama(model='gemma2')
 
 def is_full_chapter_request(question: str) -> bool:
     return "entire" in question.lower() or "full" in question.lower() or "whole" in question.lower()
