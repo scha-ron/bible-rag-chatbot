@@ -93,7 +93,7 @@ To modify the chatbot or add new features:
   docker-compose logs
   ```
 
-## Contributing
+### Contributing
 
 Contributions to improve the chatbot are welcome. Please follow these steps:
 
